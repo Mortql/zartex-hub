@@ -1,42 +1,43 @@
--- Zartex Hub v11.0 - main.lua (Tam Kod)
--- Bu dosya doğrudan çalışır, harici yükleme yok.
+-- Zartex Hub - main.lua (Garanti Çalışan)
+-- Kullanım: loadstring(game:HttpGet("https://raw.githubusercontent.com/KULLANICI_ADIN/ZartexHub/main/main.lua"))()
 
 print("[Zartex] Zartex Hub yükleniyor...")
 
 -- ============================
--- 1. WINDUI'Yİ YÜKLE (XENO İÇİN OPTİMİZE)
+-- 1. WINDUI'Yİ YÜKLE (GARANTİLİ)
 -- ============================
-local function HttpGet(url)
-    local success, result = pcall(function()
-        return game:HttpGet(url)
-    end)
-    if success then return result end
+local function LoadWindUI()
+    local urls = {
+        "https://raw.githubusercontent.com/Footagesus/WindUI/main/source.lua",
+        "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua",
+        "https://raw.githubusercontent.com/orialdev/windui-boreal/refs/heads/main/WindUI-Boreal.lua"
+    }
+    
+    for _, url in ipairs(urls) do
+        local success, result = pcall(function()
+            return game:HttpGet(url)
+        end)
+        if success and result then
+            local fn, err = loadstring(result)
+            if fn then
+                local lib = fn()
+                if lib and lib.CreateWindow then
+                    print("[Zartex] WindUI yüklendi: " .. url)
+                    return lib
+                end
+            end
+        end
+    end
     return nil
 end
 
-local WindUI = nil
+local WindUI = LoadWindUI()
 
--- Önce en kararlı sürümü dene
-local url = "https://raw.githubusercontent.com/Footagesus/WindUI/main/source.lua"
-local scriptContent = HttpGet(url)
-
-if scriptContent then
-    local fn, err = loadstring(scriptContent)
-    if fn then
-        WindUI = fn()
-    else
-        print("[Zartex] WindUI derleme hatası: " .. tostring(err))
-    end
-end
-
--- Eğer olmadıysa, doğrudan kendi UI'ni kullan
 if not WindUI then
-    print("[Zartex] WindUI yüklenemedi! Kendi UI ile devam...")
-    -- Burada kendi UI'ni oluşturabilirsin
+    print("[Zartex] WindUI yüklenemedi! Alternatif UI deneniyor...")
+    -- Alternatif: Sadece print ile devam et
     return
 end
-
-print("[Zartex] WindUI başarıyla yüklendi!")
 
 -- ============================
 -- 2. MENÜYÜ OLUŞTUR
@@ -87,14 +88,12 @@ MainTab:Button({
     Description = "Tıkla ve çalıştığını gör.",
     Callback = function()
         print("[Zartex] Butona basıldı!")
-        if WindUI.Notify then
-            WindUI:Notify({
-                Title = "Başarılı",
-                Content = "WindUI çalışıyor!",
-                Duration = 3
-            })
-        end
+        WindUI:Notify({
+            Title = "Başarılı",
+            Content = "WindUI çalışıyor!",
+            Duration = 3
+        })
     end
 })
 
-print("[Zartex] Zartex Hub başarıyla yüklendi! Sağ Ctrl ile menüyü aç/kapat.")
+print("[Zartex] Zartex Hub başarıyla yüklendi!")
