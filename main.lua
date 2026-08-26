@@ -1,46 +1,22 @@
--- Zartex Hub - main.lua (Garanti Çalışan)
--- Kullanım: loadstring(game:HttpGet("https://raw.githubusercontent.com/KULLANICI_ADIN/ZartexHub/main/main.lua"))()
+-- Zartex Hub - main.lua (WindUI Doğrudan Yüklenir)
+-- Kullanım: loadstring(game:HttpGet("https://raw.githubusercontent.com/KULLANICI_ADIN/ZartexHub/refs/heads/main/main.lua"))()
 
 print("[Zartex] Zartex Hub yükleniyor...")
 
 -- ============================
--- 1. WINDUI'Yİ YÜKLE (GARANTİLİ)
+-- 1. WINDUI'Yİ DOĞRUDAN YÜKLE (KONTROLSÜZ)
 -- ============================
-local function LoadWindUI()
-    local urls = {
-        "https://raw.githubusercontent.com/Footagesus/WindUI/main/source.lua",
-        "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua",
-        "https://raw.githubusercontent.com/orialdev/windui-boreal/refs/heads/main/WindUI-Boreal.lua"
-    }
-    
-    for _, url in ipairs(urls) do
-        local success, result = pcall(function()
-            return game:HttpGet(url)
-        end)
-        if success and result then
-            local fn, err = loadstring(result)
-            if fn then
-                local lib = fn()
-                if lib and lib.CreateWindow then
-                    print("[Zartex] WindUI yüklendi: " .. url)
-                    return lib
-                end
-            end
-        end
-    end
-    return nil
-end
-
-local WindUI = LoadWindUI()
+local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/refs/heads/main/source.lua"))()
 
 if not WindUI then
-    print("[Zartex] WindUI yüklenemedi! Alternatif UI deneniyor...")
-    -- Alternatif: Sadece print ile devam et
+    print("[Zartex] WindUI yüklenemedi!")
     return
 end
 
+print("[Zartex] WindUI başarıyla yüklendi!")
+
 -- ============================
--- 2. MENÜYÜ OLUŞTUR
+-- 2. MENÜ
 -- ============================
 local Window = WindUI:CreateWindow({
     Title = "Zartex Hub",
@@ -53,9 +29,6 @@ local MainTab = Window:Tab({
     Icon = "home"
 })
 
--- ============================
--- 3. ÖZELLİKLER
--- ============================
 MainTab:Toggle({
     Title = "Auto Farm",
     Description = "Düşmanları otomatik keser.",
@@ -96,4 +69,4 @@ MainTab:Button({
     end
 })
 
-print("[Zartex] Zartex Hub başarıyla yüklendi!")
+print("[Zartex] Zartex Hub başarıyla yüklendi! Sağ Ctrl ile menüyü aç/kapat.")
