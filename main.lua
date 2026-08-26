@@ -1,19 +1,28 @@
--- Zartex Hub v1.0
--- Bu script doğrudan GitHub'dan yüklenir.
+-- Zartex Hub - WindUI ile
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
-print("[Zartex] Zartex Hub yükleniyor...")
+local Window = WindUI:CreateWindow({
+    Title = "Zartex Hub",
+    Theme = "Violet",
+    ToggleKey = Enum.KeyCode.RightControl
+})
 
--- UI (isteğe bağlı, kendi UI'ni ekle)
-local function CreateMenu()
-    -- Buraya kendi menü kodunu ekle
-    print("[Zartex] Menü oluşturuldu!")
-end
+local MainTab = Window:Tab({
+    Title = "Ana",
+    Icon = "home"
+})
 
--- Ana fonksiyon
-local function Main()
-    print("[Zartex] Zartex Hub başlatıldı!")
-    CreateMenu()
-end
+MainTab:Toggle({
+    Title = "Auto Farm",
+    Description = "Düşmanları otomatik keser.",
+    Value = false,
+    Callback = function(state)
+        if state then
+            print("[Zartex] Auto Farm AÇILDI!")
+        else
+            print("[Zartex] Auto Farm KAPANDI!")
+        end
+    end
+})
 
--- Çalıştır
-Main()
+print("[Zartex] WindUI ile Zartex Hub çalışıyor!")
