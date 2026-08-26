@@ -10,7 +10,7 @@ local function HttpGet(url)
 end
 
 -- Ana script'i yükle
-local scriptUrl = "https://raw.githubusercontent.com/mortql/zartex-hub/main/main.lua"
+local scriptUrl = "https://raw.githubusercontent.com/Mortql/zartex-hub/refs/heads/main/main.lua"
 local script = HttpGet(scriptUrl)
 
 if script then
