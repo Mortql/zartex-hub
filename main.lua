@@ -1,5 +1,12 @@
--- Zartex Hub - WindUI ile
+-- Zartex Hub - main.lua (GitHub'daki ana dosya)
+-- Bu dosya, kullanıcı loadstring ile çalıştırdığında çalışır.
+
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+if not WindUI then
+    print("[Zartex] WindUI yüklenemedi!")
+    return
+end
 
 local Window = WindUI:CreateWindow({
     Title = "Zartex Hub",
@@ -25,4 +32,18 @@ MainTab:Toggle({
     end
 })
 
-print("[Zartex] WindUI ile Zartex Hub çalışıyor!")
+MainTab:Slider({
+    Title = "Hız Ayarı",
+    Description = "Yürüme hızını değiştirir.",
+    Min = 16,
+    Max = 100,
+    Default = 16,
+    Callback = function(value)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = value
+        end
+    end
+})
+
+print("[Zartex] Zartex Hub yüklendi! Sağ Ctrl ile menüyü aç/kapat.")
